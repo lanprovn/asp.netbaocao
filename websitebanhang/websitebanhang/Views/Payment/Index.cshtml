@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="text-align: center;">
+    <h2>Thanh toán thành công</h2>
+    <p><a href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a></p>
+    <p><a href="@Url.Action("Index", "Cart")">Trở lại</a></p>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    $(document).on("click", ".removecart", function () {
+        var model = {};
+        model.Id = $(this).siblings(".productid").val();
+        var removeButton = $(this);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Remove", "Cart")',
+            data: JSON.stringify(model),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+                var currentCount = parseInt($('#CartCount').text());
+                var newCount = currentCount - 1;
+                $('#CartCount').text(newCount);
+                $("#product-" + model.Id).remove();
+                updateTotalPrice();
+
+                // Kiểm tra nếu giỏ hàng rỗng, chuyển về trang chủ
+                if (newCount === 0) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                }
+            },
+            error: function () {
+                alert("Lỗi khi thêm vào giỏ hàng!");
+            }
+        });
+
+        return false;
+    });
+
+
+});
+</script>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

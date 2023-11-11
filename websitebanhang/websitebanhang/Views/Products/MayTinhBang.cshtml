@@ -1,0 +1,35 @@
+﻿@model websitebanhang.Models.ProductsModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<br />
+<br />
+
+<div class="site-section" id="laptop">
+    <div class="container">
+        <h1 class="text-center">Máy Tính Bảng</h1>
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(p => p.CategoryId == 3).Take(12))
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="course-1-item">
+                        <figure class="thumnail">
+                            <a href="@Url.Action("Detail","Products",new {Id=item.Id })">
+                                <img src="~/Content/images/@item.Avatar" alt="Image" class="img-fluid">
+                            </a>
+                            <div class="price">@item.Price</div>
+                            <div class="category"><h3>@item.Name</h3></div>
+                        </figure>
+                        <div class="course-1-content pb-4">
+                            <h2>@item.ShortDes</h2>
+                            <p class="desc mb-4">@item.FullDescription</p>
+                            <p><a href="@Url.Action("Detail","Products",new {Id=item.Id })" class="btn btn-primary rounded-0 px-4">Chi tiết sản phẩm</a></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

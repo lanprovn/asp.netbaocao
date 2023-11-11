@@ -1,0 +1,146 @@
+﻿@model websitebanhang.Context.tb_Product
+@{
+    ViewBag.Title = "Chi tiết sản phẩm: " + Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detail</h2>
+<br />
+<br />
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </div>
+</section>
+
+<section class="section-content bg-white padding-y">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-6">
+                <div class="card">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <div>
+                                <a href="#"><img src="~/Content/images/@Model.Avatar"></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </aside>
+            @*<main class="col-md-6">
+                    <article class="product-info-aside">
+                        <h2 class="title mt-3">@Model.Name</h2>
+                        <div class="mb-3">
+                            <var class="price h4">@Model.PriceDiscount <sup>đ</sup></var>
+                            <span class="text-muted">@Model.Price <sup>đ</sup></span>
+                        </div>
+                        <p>
+                            @Model.ShortDes
+                        </p>
+                        <div class="form-row mt-4">
+                            <div class="form-group col-md flex-grow-0">
+                                <div class="input-group mb-3 input-spinner">
+                                    <input type="text" id="ipQuantity" class="form-control" value="1">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-primary" id="increaseBtn" type="button">+</button>
+                                        <button class="btn btn-outline-primary" id "decreaseBtn" type="button">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md">
+                                <a href="#" id="addtocart" class="btn btn-primary">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span class="text">
+                                        Thêm vào giỏ hàng
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </main>*@
+            <div class="col-lg-5 ml-auto align-self-center">
+                <h2 class="section-title-underline mb-5">
+                    <span>@Model.Name</span>
+                </h2>
+                <p><strong class="text-black d-block">Giá khuyến mãi:</strong> @Model.PriceDiscount</p>
+                <p class="mb-5"><strong class="text-black d-block">Giá niêm yết:</strong>@Model.Price</p>
+                <h5 class="title-description">Mô tả sản phẩm</h5>
+                <p>@Model.FullDescription@*Lorem ipsum dolor sit amet consectetur adipisicing elit. At itaque dolore libero corrupti! Itaque, delectus?*@</p>
+
+                <div class="form-row mt-4">
+                    <div class="form-group col-md flex-grow-0">
+                        <div class="input-group mb-3 input-spinner">
+                            <input type="text" id="ipQuantity" class="form-control" value="1">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" id="increaseBtn" type="button">+</button>
+                                <button class="btn btn-outline-primary" id="decreaseBtn" type="button">-</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md">
+                        <a href="#" id="addtocart" class="btn btn-primary">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="text">
+                                Thêm vào giỏ hàng
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // Lấy số lượng mặc định từ ô input
+        var quantity = parseInt($("#ipQuantity").val());
+
+        $("#increaseBtn").click(function () {
+            // Tăng số lượng khi bấm nút "+"
+            quantity++;
+            $("#ipQuantity").val(quantity);
+        });
+
+        $("#decreaseBtn").click(function () {
+            // Giảm số lượng khi bấm nút "-"
+            if (quantity > 1) {
+                quantity--;
+                $("#ipQuantity").val(quantity);
+            }
+        });
+
+        $("#addtocart").click(function () {
+            var model = {};
+            // Lấy id sản phẩm
+            model.Id = @Model.Id;
+            // Lấy số lượng đặt hàng
+            model.Quantity = quantity;
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddToCart", "Cart")',
+                data: JSON.stringify(model),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    alert("Thêm vào giỏ hàng thành công!");
+                    $('#CartCount').text(@Session["count"] + 1);
+                },
+                error: function () {
+                    alert("Lỗi khi thêm vào giỏ hàng!");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+
+<!-- Thêm các thông tin và dịch vụ -->

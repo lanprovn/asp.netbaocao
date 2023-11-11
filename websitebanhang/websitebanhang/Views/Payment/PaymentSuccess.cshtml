@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "PaymentSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Xóa giỏ hàng từ sessionStorage
+        sessionStorage.removeItem("cart");
+
+        // Hoặc xóa giỏ hàng từ cookie
+        document.cookie = "cart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+</script>
+
+@*<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />*@
+<div style="text-align: center;">
+    <h2>Thanh toán thành công</h2>
+    <p><a href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a></p>
+    <p><a href="@Url.Action("Index", "Cart")">Trở lại</a></p>
+</div>
+

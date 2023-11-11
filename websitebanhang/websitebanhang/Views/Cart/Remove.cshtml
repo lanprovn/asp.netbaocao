@@ -1,0 +1,22 @@
+﻿@model IEnumerable<websitebanhang.Models.CartModel>
+@{
+    ViewBag.Title = "Remove";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<Script>
+    $(document).on("click", "#checkoutBtn", function (e) {
+        e.preventDefault();
+        var emailInput = $("#emailInput");
+        var email = emailInput.val();
+
+        if (email.trim() === "") {
+            alert("Vui lòng nhập địa chỉ email.");
+            emailInput.focus();
+            return;
+        }
+
+        processPayment(email);
+        clearCart();
+    });
+</Script>
+<h2>ClearCart</h2>
